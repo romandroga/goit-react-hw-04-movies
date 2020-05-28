@@ -1,24 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as fetchAPI from '../../../services/movies-api';
-import styles from './FilmCard.module.css';
+import { Link, withRouter } from 'react-router-dom';
+import * as variables from '../../../services/variables';
+import { filmLink, card, cardImage, cardTitle } from './FilmCard.module.css';
 
-class FilmCard extends Component {
-  // Сделать заглушку для фильмов, у которых нет постеров
-  render() {
-    const { poster, title } = this.props;
-    return (
-      <div className={styles.card}>
-        <img
-          className={styles.cardImage}
-          src={`https://image.tmdb.org/t/p/w780${poster}`}
-        />
-        <p>{title}</p>
-      </div>
-    );
-  }
-}
+const FilmCard = ({ poster, title, id, location }) => (
+  <Link
+    to={{
+      pathname: `movies/${id}`,
+      state: { from: location },
+    }}
+    className={filmLink}
+  >
+    <div className={card}>
+      <img
+        className={cardImage}
+        src={
+          poster ? `${variables.imageBaseUrl}${poster}` : variables.posterDummy
+        }
+        alt="movie poster"
+      />
+      <p className={cardTitle}>{title}</p>
+    </div>
+  </Link>
+);
 
-FilmCard.propTypes = {};
+FilmCard.propTypes = {
+  poster: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
-export default FilmCard;
+export default withRouter(FilmCard);

@@ -1,0 +1,33 @@
+.linksWrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 25px 0;
+}
+.link {
+  color: #100f0f;
+  font-size: 30px;
+  text-decoration: none;
+}
+.link:hover {
+  transform: scale(1.1);
+  color: #ffcc0b;
+}
+.linkActive {
+  color: red;
+}
+button {
+  width: 50px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.2s;
+  background-color: #fff;
+  border: 1px solid grey;
+  cursor: pointer;
+}
+
+button:active {
+  background-color: #2e2ec9;
+}

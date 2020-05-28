@@ -1,34 +1,65 @@
 import React from 'react';
-import styles from './MovieDetailsInfo.module.css';
+import PropTypes from 'prop-types';
+import * as variables from '../../services/variables';
+import {
+  wrapper,
+  imageWrapper,
+  infoWrapper,
+  dataWrapper,
+  filmTitle,
+  boldText,
+  poster,
+  genreStyle,
+} from './MovieDetailsInfo.module.css';
 
-const MovieDetailsInfo = ({ film, genres }) => {
-  const { wrapper, imageWrapper, infoWrapper, dataWrapper } = styles;
+const MovieDetailsInfo = ({ film, genres, onGoBack }) => {
+  const {
+    poster_path: posterPath,
+    release_date: releaseDate,
+    vote_average: voteAverage,
+    vote_count: voteCount,
+    revenue,
+    overview,
+    title,
+  } = film;
+
   return (
     <div className={wrapper}>
-      <button type="button">Back</button>
+      <button type="button" onClick={onGoBack}>
+        Back
+      </button>
       <div className={dataWrapper}>
         <div className={imageWrapper}>
           <img
-            className={styles.poster}
-            src={`https://image.tmdb.org/t/p/w780${film.poster_path}`}
+            className={poster}
+            src={
+              posterPath
+                ? `https://image.tmdb.org/t/p/w780${posterPath}`
+                : variables.posterDummy
+            }
+            alt="poster"
           />
         </div>
         <div className={infoWrapper}>
-          <p>
-            {film.title} ({parseInt(film.release_date)})
+          <p className={filmTitle}>
+            <span className={boldText}>
+              {title} ({parseInt(releaseDate)})
+            </span>
           </p>
           <p>
-            User score: {film.vote_average}/10 from {film.vote_count} users
+            Rating: <span className={boldText}>{voteAverage}/10</span> from
+            <span className={boldText}> {voteCount} </span>
+            users
           </p>
-          <p>Revenue: {film.revenue}$</p>
-          <p>OVERVIEW</p>
-          <p>{film.overview}</p>
+          {!!revenue && <p>Revenue : {revenue}$</p>}
+          <p>Overview :</p>
+          <p>{overview}</p>
           <p>
-            Genres:
+            Genres :
             {!!genres &&
-              genres.map(genre => (
-                <span key={genre.id} className={styles.genre}>
-                  {genre.name}
+              genres.map(({ id, name }) => (
+                <span key={id} className={genreStyle}>
+                  {name}
                 </span>
               ))}
           </p>
@@ -38,14 +69,15 @@ const MovieDetailsInfo = ({ film, genres }) => {
   );
 };
 
+MovieDetailsInfo.propTypes = {
+  film: PropTypes.object.isRequired,
+  genres: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  ),
+  onGoBack: PropTypes.func.isRequired,
+};
+
 export default MovieDetailsInfo;
-
-//vote_average: 8.5
-// vote_count: 459
-
-// genres: Array(5)
-// 0: {id: 16, name: "Animation"}
-// 1: {id: 28, name: "Action"}
-// 2: {id: 12, name: "Adventure"}
-// 3: {id: 14, name: "Fantasy"}
-// 4: {id: 878, name: "Science Fiction"}

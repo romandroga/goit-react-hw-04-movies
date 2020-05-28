@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import * as fetchAPI from '../../services/movies-api';
+import * as variables from '../../services/variables';
+import {nameStyle, cast, card} from './Credits.module.css';
 
-class Credits extends Component {
+export default class Credits extends Component {
   state = {
-    credits: [],
+    cast: [],
   };
 
   componentDidMount() {
-    // fetchAPI.fetchMovieCredits()
-    console.log(this.props);
+    const {movieId} = this.props.match.params
+
+    fetchAPI.fetchMovieCredits(movieId).then(res => {
+      const castMarkdown = res.map(({ profile_path, name, character }) => (
+        <li key={uuidv4()} className={card}>
+          <img
+            src={
+              profile_path
+                ? `${variables.imageBaseUrl}${profile_path}`
+                : variables.actorPhotoDummy
+            }
+            alt="actor"
+          />
+          <p className={nameStyle}>{name}</p>
+          <p>{character}</p>
+        </li>
+      ));
+
+      this.setState({ cast: castMarkdown });
+    });
   }
 
   render() {
-    return <div></div>;
+    return <ul className={cast}>{this.state.cast}</ul>;
   }
 }
 
-export default Credits;

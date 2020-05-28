@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+  searchForm,
+  searchFormWrapper,
+  searchFormInput,
+  searchFormButton,
+} from './SearchForm.module.css';
 
 export default class SearchForm extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     query: '',
   };
@@ -19,12 +29,18 @@ export default class SearchForm extends Component {
   render() {
     const { query } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" value={query} onChange={this.handleChange} />
-        <button type="submit">Search</button>
+      <form className={searchForm} onSubmit={this.handleSubmit}>
+        <div className={searchFormWrapper}>
+          <input
+            className={searchFormInput}
+            type="text"
+            value={query}
+            onChange={this.handleChange}
+            placeholder="Movies..."
+          />
+          <button type="submit" className={searchFormButton} />
+        </div>
       </form>
     );
   }
 }
-
-SearchForm.propTypes = {};

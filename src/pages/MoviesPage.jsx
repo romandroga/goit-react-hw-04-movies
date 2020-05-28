@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 import * as fetchAPI from '../services/movies-api';
+import { getParsedSearchQuery } from '../services/utilities';
 // Components
 import FilmsList from '../components/FilmsList/FilmsList';
 import SearchForm from '../components/SearchForm/SearchForm';
 
-const getParsedSearchQuery = props =>
-  queryString.parse(props.location.search).query;
-
-class MoviesPage extends Component {
+export default class MoviesPage extends Component {
   state = {
     query: '',
     films: [],
-    pageNumber: 1,
   };
 
   componentDidMount() {
     const searchQuery = getParsedSearchQuery(this.props);
-
     if (!searchQuery) return;
 
     fetchAPI.fetchMoviesByName(searchQuery).then(response => {
@@ -26,19 +21,23 @@ class MoviesPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const searchQuery = getParsedSearchQuery(this.props);
+
     if (prevState.query !== this.state.query) {
-      fetchAPI.fetchMoviesByName(this.state.query).then(response => {
+      fetchAPI.fetchMoviesByName(searchQuery).then(response => {
         this.setState({ films: response.results });
       });
     }
   }
 
-  onSubmit = query => {
-    this.props.history.push({
-      ...this.props.location.pathname,
-      search: `query=${query}`,
+  onSubmit = data => {
+    const { history, location } = this.props;
+
+    history.push({
+      ...location.pathname,
+      search: `query=${data}`,
     });
-    this.setState({ query: query });
+    this.setState({ query: data });
   };
 
   render() {
@@ -46,10 +45,8 @@ class MoviesPage extends Component {
     return (
       <>
         <SearchForm onSubmit={this.onSubmit} />
-        {!!films && <FilmsList films={films} />}
+        {films && <FilmsList films={films} />}
       </>
     );
   }
 }
-
-export default MoviesPage;
