@@ -6,9 +6,9 @@ import FilmCard from './FilmCard/FilmCard';
 
 const FilmsList = ({ films }) => (
   <ul className={list}>
-    {films.map(({ id, title, poster_path }) => (
+    {films.map(({ id, title, poster_path : posterPath }) => (
       <li key={id} className={listItem}>
-        <FilmCard poster={poster_path} title={title} id={id} />
+        <FilmCard poster={posterPath} title={title} id={id} />
       </li>
     ))}
   </ul>

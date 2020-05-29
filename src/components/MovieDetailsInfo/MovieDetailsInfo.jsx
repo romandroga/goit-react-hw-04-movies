@@ -34,7 +34,7 @@ const MovieDetailsInfo = ({ film, genres, onGoBack }) => {
             className={poster}
             src={
               posterPath
-                ? `https://image.tmdb.org/t/p/w780${posterPath}`
+                ? `${variables.imageBaseUrl}780${posterPath}`
                 : variables.posterDummy
             }
             alt="poster"

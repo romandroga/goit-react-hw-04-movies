@@ -16,7 +16,7 @@ const FilmCard = ({ poster, title, id, location }) => (
       <img
         className={cardImage}
         src={
-          poster ? `${variables.imageBaseUrl}${poster}` : variables.posterDummy
+          poster ? `${variables.imageBaseUrl}500${poster}` : variables.posterDummy
         }
         alt="movie poster"
       />

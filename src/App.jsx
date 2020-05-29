@@ -20,7 +20,7 @@ const AsyncMoviesPage = lazy(
 const App = () => (
   <>
     <Navigation />
-    <Suspense fallback={LoadingIndicator}>
+    <Suspense fallback={<LoadingIndicator />}>
       <Switch>
         <Route path="/" exact component={AsyncHomePage} />
         <Route path="/movies/:movieId" component={AsyncMovieDetailsPage} />

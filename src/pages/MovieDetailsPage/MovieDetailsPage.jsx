@@ -67,7 +67,7 @@ export default class MovieDetailsPage extends Component {
             Reviews
           </NavLink>
         </div>
-        <Suspense fallback={LoadingIndicator}>
+        <Suspense fallback={<LoadingIndicator />}>
           <Route path={`${path}/credits`} component={AsyncCredits} />
           <Route path={`${path}/reviews`} component={AsyncReviews} />
         </Suspense>
