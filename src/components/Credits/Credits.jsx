@@ -18,7 +18,7 @@ export default class Credits extends Component {
           <img
             src={
               profile_path
-                ? `${variables.imageBaseUrl}${profile_path}`
+                ? `${variables.imageBaseUrl}200${profile_path}`
                 : variables.actorPhotoDummy
             }
             alt="actor"
