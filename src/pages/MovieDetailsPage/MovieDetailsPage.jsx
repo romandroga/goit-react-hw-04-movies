@@ -20,9 +20,10 @@ const AsyncReviews = lazy(
 );
 
 export default class MovieDetailsPage extends Component {
-  state = { film: {}, from: null };
+  state = { film: {}, from: null, isLoading:false };
 
   componentDidMount() {
+    this.setState({isLoading:true})
     const { state } = this.props.location;
     if (state) this.setState({ from: state.from });
 
@@ -30,7 +31,7 @@ export default class MovieDetailsPage extends Component {
 
     fetchAPI.fetchMovieById(movieId).then(response => {
       this.setState({ film: response });
-    });
+    }).finally(() => this.setState({isLoading:false}));
   }
   handleGoBack = () => {
     const { history } = this.props;
@@ -44,16 +45,16 @@ export default class MovieDetailsPage extends Component {
   };
 
   render() {
-    const { film } = this.state;
+    const { film,isLoading } = this.state;
     const { path, url } = this.props.match;
 
     return (
       <>
-        <MovieDetailsInfo
+        {!isLoading && <MovieDetailsInfo
           film={film}
           genres={film.genres}
           onGoBack={this.handleGoBack}
-        />
+        />}
         <div className={linksWrapper}>
           <NavLink
             className={link}
