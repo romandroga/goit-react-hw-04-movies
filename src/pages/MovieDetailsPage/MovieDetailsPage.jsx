@@ -20,21 +20,24 @@ const AsyncReviews = lazy(
 );
 
 export default class MovieDetailsPage extends Component {
-  state = { film: {} };
+  state = { film: {}, from: null };
 
   componentDidMount() {
+    const { state } = this.props.location;
+    if (state) this.setState({ from: state.from });
+
     const { movieId } = this.props.match.params;
 
     fetchAPI.fetchMovieById(movieId).then(response => {
       this.setState({ film: response });
     });
   }
-
   handleGoBack = () => {
-    const { location, history } = this.props;
+    const { history } = this.props;
 
-    if (location.state) {
-      history.push(location.state.from);
+    if (this.state.from) {
+      const { pathname, search } = this.state.from;
+      history.push(`${pathname}${search}`);
       return;
     }
     history.push('/');
