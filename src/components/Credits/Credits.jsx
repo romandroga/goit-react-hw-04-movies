@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as fetchAPI from '../../services/movies-api';
 import * as variables from '../../services/variables';
-import {nameStyle, cast, card} from './Credits.module.css';
+import { nameStyle, cast, card } from './Credits.module.css';
 
 export default class Credits extends Component {
   state = {
@@ -10,7 +10,7 @@ export default class Credits extends Component {
   };
 
   componentDidMount() {
-    const {movieId} = this.props.match.params
+    const { movieId } = this.props.match.params;
 
     fetchAPI.fetchMovieCredits(movieId).then(res => {
       const castMarkdown = res.map(({ profile_path, name, character }) => (
@@ -36,4 +36,3 @@ export default class Credits extends Component {
     return <ul className={cast}>{this.state.cast}</ul>;
   }
 }
-
