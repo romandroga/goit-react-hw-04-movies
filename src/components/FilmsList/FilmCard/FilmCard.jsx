@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import * as variables from '../../../services/variables';
 import { filmLink, card, cardImage, cardTitle } from './FilmCard.module.css';
 
 const FilmCard = ({ poster, title, id, location }) => (
@@ -13,15 +12,7 @@ const FilmCard = ({ poster, title, id, location }) => (
     className={filmLink}
   >
     <div className={card}>
-      <img
-        className={cardImage}
-        src={
-          poster
-            ? `${variables.imageBaseUrl}500${poster}`
-            : variables.posterDummy
-        }
-        alt="movie poster"
-      />
+      <img className={cardImage} src={poster} alt="movie poster" />
       <p className={cardTitle}>{title}</p>
     </div>
   </Link>
